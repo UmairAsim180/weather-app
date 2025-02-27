@@ -14,7 +14,7 @@ export default async function Home() {
   const data = await res.json();
   const today = data.forecast.forecastday[0]
   return (
-    <>
+    <main>
       <section className="bg-gradient-to-tl from-sky-800  to-sky-950 rounded-lg p-4">
         <div className="grid grid-cols-3 gap-2">
           {/* Weather Icon  */}
@@ -58,9 +58,18 @@ export default async function Home() {
         </div>
       </section>
       {/* Hourly Forecast Section  */}
-      <section>
-
+      <section className="bg-gradient-to-tl from-sky-800 to-sky-950 rounded-lg p-4 my-2 w-full">
+        <h2 className="text-white">Hourly Forecast</h2>
+        <div className="flex gap-2 w-[60vw] overflow-x-auto">
+          {today.hour.map((hr, index) => (
+            <div key={index} className="flex flex-col bg-emerald-600 rounded-lg p-2">
+              <h3 className="text-white">{hr.time.split(" ")[1]}</h3>
+              <img src={hr.condition.icon} alt={hr.condition.text} />
+              <p className="text-white">{hr.temp_c}&deg;</p>
+            </div>
+          ))}
+        </div>
       </section>
-    </>
+    </main>
   );
 }
