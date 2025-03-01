@@ -24,7 +24,7 @@ export default function RootLayout({ children }) {
       <body className="flex h-screen w-screen">
         <SidebarProvider>
           <AppSidebar />
-          <main className="flex-1 p-2">
+          <main className="p-2 flex-1 overflow-y-auto">
             <SidebarTrigger />
             {children}
           </main>

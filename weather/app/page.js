@@ -1,12 +1,14 @@
 
 import { Progress } from "@/components/ui/progress"
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
+
 
 export default async function Home() {
   // Todo  Add Icons Both, 
   // -------------------------------------------------------Work needed 
   const city = "Lahore"; // Change to your city
-  const apiKey = process.env.OPENWEATHER_API_KEY; // Use .env for security
-  const url = `http://api.weatherapi.com/v1/forecast.json?key=0b4ae5f8adfb4ac48dc95338251701&q=Lahore&days=14&aqi=yes&alerts=yes`;
+  const apiKey = process.env.API_KEY; // Use .env for security
+  const url = `http://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${city}&days=14&aqi=yes&alerts=yes`;
 
   const res = await fetch(url, { cache: "no-store" }); // Disable caching for fresh data
   if (!res.ok) throw new Error("Failed to fetch weather data");
@@ -18,7 +20,7 @@ export default async function Home() {
       <section className="bg-gradient-to-tl from-sky-800  to-sky-950 rounded-lg p-4">
         <div className="grid grid-cols-3 gap-2">
           {/* Weather Icon  */}
-          <div className="">
+          <div>
             <img src={data.current.condition.icon.replace("64x64", "128x128")} alt="" />
           </div>
           {/* Current Weather  */}
@@ -60,15 +62,19 @@ export default async function Home() {
       {/* Hourly Forecast Section  */}
       <section className="bg-gradient-to-tl from-sky-800 to-sky-950 rounded-lg p-4 my-2 w-full">
         <h2 className="text-white">Hourly Forecast</h2>
-        <div className="flex gap-2 w-[60vw] overflow-x-auto">
+        {/* Hourly Forecast Container  */}
+        <ScrollArea className="flex gap-2 w-[90%] mx-auto overflow-x-auto">
+          <div className="flex gap-2 my-3">
           {today.hour.map((hr, index) => (
-            <div key={index} className="flex flex-col bg-emerald-600 rounded-lg p-2">
+            <div key={index} className="flex flex-col bg-emerald-600 rounded-lg p-2 w-[5rem]">
               <h3 className="text-white">{hr.time.split(" ")[1]}</h3>
               <img src={hr.condition.icon} alt={hr.condition.text} />
               <p className="text-white">{hr.temp_c}&deg;</p>
             </div>
           ))}
-        </div>
+          </div>
+          <ScrollBar orientation="horizontal"/>
+        </ScrollArea>
       </section>
     </main>
   );
