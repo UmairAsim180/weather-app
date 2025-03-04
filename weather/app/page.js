@@ -1,6 +1,7 @@
 
 import { Progress } from "@/components/ui/progress"
-import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
+import { HourlyForecast } from "@/components/HourlyForecast"
+import { DailyForecast} from "@/components/dailyForecast"
 
 
 export default async function Home() {
@@ -15,10 +16,11 @@ export default async function Home() {
 
   const data = await res.json();
   const today = data.forecast.forecastday[0]
+  const forecast = data.forecast
   return (
     <main>
       <section className="bg-gradient-to-tl from-sky-800  to-sky-950 rounded-lg p-4">
-        <div className="grid grid-cols-3 gap-2">
+        <div className="md:grid md:grid-cols-3 flex flex-col justify-center items-center gap-2">
           {/* Weather Icon  */}
           <div>
             <img src={data.current.condition.icon.replace("64x64", "128x128")} alt="" />
@@ -59,23 +61,11 @@ export default async function Home() {
           </div>
         </div>
       </section>
-      {/* Hourly Forecast Section  */}
-      <section className="bg-gradient-to-tl from-sky-800 to-sky-950 rounded-lg p-4 my-2 w-full">
-        <h2 className="text-white">Hourly Forecast</h2>
-        {/* Hourly Forecast Container  */}
-        <ScrollArea className="flex gap-2 w-[90%] mx-auto overflow-x-auto">
-          <div className="flex gap-2 my-3">
-          {today.hour.map((hr, index) => (
-            <div key={index} className="flex flex-col bg-emerald-600 rounded-lg p-2 w-[5rem]">
-              <h3 className="text-white">{hr.time.split(" ")[1]}</h3>
-              <img src={hr.condition.icon} alt={hr.condition.text} />
-              <p className="text-white">{hr.temp_c}&deg;</p>
-            </div>
-          ))}
-          </div>
-          <ScrollBar orientation="horizontal"/>
-        </ScrollArea>
-      </section>
+      {/* ---- */}
+      <HourlyForecast today={today}/>
+      {/* ------- */}
+      <DailyForecast forecastday={forecast.forecastday}/>
+      
     </main>
   );
 }
