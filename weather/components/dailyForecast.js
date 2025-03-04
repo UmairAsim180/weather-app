@@ -9,7 +9,7 @@ const DailyForecast = ({ forecastday }) => {
       <ScrollArea className="flex gap-2 w-[90%] mx-auto overflow-x-auto">
         <div className="flex flex-col gap-2 my-3">
           {forecastday.map((day, index) => (
-            <div key={index} className="grid grid-cols-2 gap-2 w-full bg-emerald-600 rounded-lg p-2">
+            <div key={index} className="md:grid  grid-cols-2 gap-2 w-full bg-emerald-600 rounded-lg p-3">
 
               <div className='flex flex-col justify-center items-center gap-2'>
                 <h3 className="font-semibold">{day.date}</h3>
