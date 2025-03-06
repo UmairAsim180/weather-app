@@ -9,13 +9,14 @@ export function BodyComponent({ children }) {
 
   
     return (
-      <div style={{ backgroundImage: `url('${imgPath}')` }} className="flex h-screen w-screen bg-cover bg-top">
-        <SidebarProvider>
-          <AppSidebar />
-          <main className="p-2 flex-1 overflow-y-auto">
-            <SidebarTrigger />
-            {children}
-          </main>
-        </SidebarProvider>
+      <div style={{ backgroundImage: `url('${imgPath}')` }} className="flex h-screen w-screen bg-cover bg-top relative">
+      <div className="absolute inset-0 bg-black opacity-50"></div>
+      <SidebarProvider>
+        <AppSidebar />
+        <main className="p-2 flex-1 overflow-y-auto relative">
+        <SidebarTrigger />
+        {children}
+        </main>
+      </SidebarProvider>
       </div>)
   }

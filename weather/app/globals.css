@@ -5,17 +5,17 @@
 @layer base {
   :root {
 
-    --background: 	#092635;
+    --background: 	0 0% 16.5%;
 
-    --foreground: #9EC8B9;
+    --foreground: 0 0% 100%;
 
     --card: 0 0% 100%;
 
     --card-foreground: 224 71.4% 4.1%;
 
-    --popover: 0 0% 100%;
+    --popover: #00000081;
 
-    --popover-foreground: 224 71.4% 4.1%;
+    --popover-foreground: 0 100% 99.8%;
 
     --primary: 220.9 39.3% 11%;
 
@@ -37,7 +37,7 @@
 
     --destructive-foreground: 210 20% 98%;
 
-    --border: 220 13% 91%;
+    --border: 220 13% 91% ;
 
     --input: 220 13% 91%;
 
@@ -56,9 +56,9 @@
     --radius: 0.5rem
   ;
 
-    --sidebar-background: #1B4242;
+    --sidebar-background: 221 39% 11%;
 
-    --sidebar-foreground: #9EC8B9;
+    --sidebar-foreground: 0 0% 98%;
 
     --sidebar-primary: 240 5.9% 10%;
 

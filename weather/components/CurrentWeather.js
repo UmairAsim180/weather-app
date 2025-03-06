@@ -13,7 +13,8 @@ function convertToHHMM(Timestamp, timezoneOffset) {
 }
 const CurrentWeather = ({ data }) => {
     return (
-        <section className="p-4">
+        <section className="p-4 backdrop-blur-sm shadow-sm rounded-md">
+
             <div className="md:grid md:grid-cols-3 flex flex-col justify-center items-center gap-2">
                 {/* Weather Icon  */}
                 <div>

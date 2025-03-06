@@ -17,12 +17,12 @@ const DailyForecast = ({ forecastday }) => {
   const dailyForecast = getDailyForecast(forecastday);
 
   return (
-    <section className="p-4 my-2 w-full">
+    <section className="p-4 my-2 w-full ">
       <h2 className="text-white">Daily Forecast</h2>
       <ScrollArea className="flex gap-2 w-[90%] mx-auto overflow-x-auto">
         <div className="flex flex-col gap-2 my-3">
           {dailyForecast.map((day, index) => (
-            <div key={index} className="md:grid  grid-cols-2 gap-2 w-full bg-emerald-600 rounded-lg p-3">
+            <div key={index} className="md:grid  grid-cols-2 gap-2 w-full bg-[#111827] bg-opacity-50 rounded-lg p-3">
 
               <div className='flex flex-col justify-center items-center gap-2'>
                 <h3 className="font-semibold">{day.date}</h3>

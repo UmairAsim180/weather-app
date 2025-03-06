@@ -13,6 +13,7 @@ export default function Home() {
 
   return (
     <>
+      <LocationSearch />
       {loading && <div className="space-y-4">
         <Skeleton className="w-full h-[40vh] bg-slate-900" />
         <div className="space-y-4">
@@ -23,14 +24,12 @@ export default function Home() {
       }
 
 
-      {data && <main className="backdrop-blur-0 bg-black bg-opacity-50">
-        {/* <input className="translate-x-1/2 bg-transparent border-2 rounded-md w-96" type="text" /> */}
-<LocationSearch/>
+      {data && <main>
         <CurrentWeather data={data} />
         <HourlyForecast forecast={data.forecast.list.slice(0, 8)} />
-        <DailyForecast forecastday={data.forecast.list}/>
+        <DailyForecast forecastday={data.forecast.list} />
       </main>}
-     
+
 
     </>
   );
