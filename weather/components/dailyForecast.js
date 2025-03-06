@@ -17,7 +17,7 @@ const DailyForecast = ({ forecastday }) => {
   const dailyForecast = getDailyForecast(forecastday);
 
   return (
-    <section className="bg-gradient-to-tl from-sky-800 to-sky-950 rounded-lg p-4 my-2 w-full">
+    <section className="p-4 my-2 w-full">
       <h2 className="text-white">Daily Forecast</h2>
       <ScrollArea className="flex gap-2 w-[90%] mx-auto overflow-x-auto">
         <div className="flex flex-col gap-2 my-3">

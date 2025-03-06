@@ -1,9 +1,19 @@
 import React from 'react'
 const airQuality = ["Good", "Fair", "Moderate", "Poor", "Very Poor"];
 import { Progress } from "@/components/ui/progress"
+
+function convertToHHMM(Timestamp, timezoneOffset) {
+    const date = new Date((Timestamp + timezoneOffset) * 1000);
+    let hours = date.getUTCHours();
+    const minutes = date.getUTCMinutes();
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+    hours = hours % 12;
+    hours = hours ? hours : 12; // the hour '0' should be '12'
+    return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')} ${ampm}`;
+}
 const CurrentWeather = ({ data }) => {
     return (
-        <section className="bg-gradient-to-tl from-sky-800  to-sky-950 rounded-lg p-4">
+        <section className="p-4">
             <div className="md:grid md:grid-cols-3 flex flex-col justify-center items-center gap-2">
                 {/* Weather Icon  */}
                 <div>
@@ -22,6 +32,9 @@ const CurrentWeather = ({ data }) => {
                     <p>
                         <span className="font-semibold">Wind:</span> {data.weather.wind.speed} kph {data.weather.wind.deg}
                     </p>
+                    <p>
+                        {data.weather.name}, {data.weather.sys.country}
+                    </p>
                 </div>
                 {/* Weather Detail  */}
                 <div className="flex flex-col p-2 gap-2">
@@ -32,8 +45,8 @@ const CurrentWeather = ({ data }) => {
                     </div>
                     <div className="w-[90%] m-auto h-[1px] bg-slate-400 my-3"></div>
                     <div className="grid grid-cols-3">
-                        <div><h3 className="">Sunrise</h3><p className="font-semibold">{new Date(data.weather.sys.sunrise).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })}</p></div>
-                        <div><h3 className="">Sunset</h3><p className="font-semibold">{new Date(data.weather.sys.sunset).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })}</p></div>
+                        <div><h3 className="">Sunrise</h3><p className="font-semibold">{convertToHHMM(data.weather.sys.sunrise , data.weather.timezone)}</p></div>
+                        <div><h3 className="">Sunset</h3><p className="font-semibold">{convertToHHMM(data.weather.sys.sunset , data.weather.timezone)}</p></div>
                         <div><h3 className="">Humidity</h3><p className="font-semibold">{data.weather.main.humidity} %</p></div>
                     </div>
                     <div className="w-[90%] m-auto h-[1px] bg-slate-400 my-3"></div>
