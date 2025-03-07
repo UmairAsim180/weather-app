@@ -11,9 +11,11 @@ export function LocationSearch() {
     const [open, setOpen] = useState(false);
     const [query, setQuery] = useState("");
     const [results, setResults] = useState([]);
+    const apiKey = process.env.NEXT_PUBLIC_API_KEY_OPEN_WEATHER_MAP;
+
     const fetchWeather = async () => {
         try {
-            const res = await fetch(`https://api.openweathermap.org/geo/1.0/direct?q=${query}&limit=5&appid=b23a043981d2bf1ecab973d85d3b8e0b`)
+            const res = await fetch(`https://api.openweathermap.org/geo/1.0/direct?q=${query}&limit=5&appid=${apiKey}`)
             const data = await res.json()
             console.log(data)
             setResults(data)
@@ -30,15 +32,20 @@ export function LocationSearch() {
                 fetchWeather()
 
         }, 500);
-        handleLocate()
         return () => clearTimeout(delayDebounce)
     }, [query])
+    // Use Location To show Current Location Weather For first time 
+    useEffect(() => {
+        handleLocate()
+    }, [])
+
 
     const handleClick = (result) => {
         console.log(result)
         setCoor({ lat: result.lat, lon: result.lon })
         setResults([])
         setQuery("")
+        setOpen(false)
     }
     const handleLocate = () => {
         navigator.geolocation.getCurrentPosition((position) => {
@@ -47,7 +54,7 @@ export function LocationSearch() {
     }
     return (
         <>
-            
+
             {/* ------ */}
             <Popover open={open} onOpenChange={setOpen}>
                 <PopoverTrigger asChild>
