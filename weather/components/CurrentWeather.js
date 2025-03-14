@@ -39,19 +39,19 @@ const CurrentWeather = ({ data }) => {
                 </div>
                 {/* Weather Detail  */}
                 <div className="flex flex-col p-2 gap-2">
-                    <div>
+                    <div className='flex flex-col gap-2'>
                         <h2 className="font-semibold">Air Quality</h2>
                         <p>{airQuality[(data.pollution.list[0].main.aqi) - 1]}</p>
                         <Progress value={(data.pollution.list[0].main.aqi / 5) * 100} />
                     </div>
                     <div className="w-[90%] m-auto h-[1px] bg-slate-400 my-3"></div>
-                    <div className="grid grid-cols-3">
+                    <div className="grid grid-cols-3 gap-2">
                         <div><h3 className="">Sunrise</h3><p className="font-semibold">{convertToHHMM(data.weather.sys.sunrise , data.weather.timezone)}</p></div>
                         <div><h3 className="">Sunset</h3><p className="font-semibold">{convertToHHMM(data.weather.sys.sunset , data.weather.timezone)}</p></div>
                         <div><h3 className="">Humidity</h3><p className="font-semibold">{data.weather.main.humidity} %</p></div>
                     </div>
                     <div className="w-[90%] m-auto h-[1px] bg-slate-400 my-3"></div>
-                    <div className="grid grid-cols-3">
+                    <div className="grid grid-cols-3 gap-2">
                         <div><h3>Cloud Cover</h3><p className="font-semibold">{data.weather.clouds.all} %</p></div>
                         {
                             data.weather.rain ? <div><h3>Precipitition</h3><p className="font-semibold">{data.weather.rain["3h"]} mm/h</p></div> : <div><h3>Precipitition</h3><p className="font-semibold">0 mm/h</p></div>

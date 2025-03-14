@@ -14,6 +14,8 @@ export default function Home() {
   return (
     <>
       <LocationSearch />
+      {!loading && !data && <p className="text-center text-gray-400">No weather data available.</p>}
+
       {loading && <div className="space-y-4">
         <Skeleton className="w-full h-[40vh] bg-slate-900" />
         <div className="space-y-4">

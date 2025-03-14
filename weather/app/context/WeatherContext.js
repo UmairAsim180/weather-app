@@ -4,62 +4,74 @@ const WeatherContext = createContext()
 
 
 export function WeatherProvider({ children }) {
+    const getCoorFromLS = () => {
+        const coor = localStorage.getItem("coor")
+        if (coor) {
+            return JSON.parse(coor)
+        }
+        else
+            return { lat: 51.5074, lon: 0.1278 }
+    }
 
     const [data, setData] = useState(null)
     const [imgPath, setImgPath] = useState("")
     const [loading, setLoading] = useState(true);
-    const [coor, setCoor] = useState({})
+    const [coor, setCoor] = useState(getCoorFromLS())
 
-// Background Image selestion 
-    const setPath = (condition, time) => {
-        if (condition.includes("rain"))
-            setImgPath("/rain.jpg")
-        else if (condition.includes("clear"))
-            setImgPath(`/clear_${time}.jpg`)
-        else if (condition.includes("thunderstorm"))
-            setImgPath("/thunderstorm.jpg")
-        else if (condition.includes("drizzle"))
-            setImgPath("/drizzle.jpg")
-        else if (condition.includes("snow"))
-            setImgPath("/snow.jpg")
-        else if (condition.includes("cloud"))
-            setImgPath(`/cloud_${time}.jpg`)
-    }
-    // Fetch Weather from API 
-    const fetchWeather = async () => {
+    // Background Image selestion 
+    const setPath = (data) => {
+        const sunrise = data.weather.sys.sunrise + data.weather.timezone;
+        const sunset = data.weather.sys.sunset + data.weather.timezone;
+        const currentTime = data.weather.dt + data.weather.timezone;
+        const condition = data.weather.weather[0].main.toLowerCase();
+        const Time = currentTime > sunrise && currentTime < sunset ? "day" : "night";
+
+        const getImagePath = (timeOfDay) => {
+            if (condition.includes("rain")) return "/rain.jpg";
+            if (condition.includes("clear")) return `/clear_${timeOfDay}.jpg`;
+            if (condition.includes("thunderstorm")) return "/thunderstorm.jpg";
+            if (condition.includes("drizzle")) return "/drizzle.jpg";
+            if (condition.includes("snow")) return "/snow.jpg";
+            if (condition.includes("cloud")) return `/cloud_${timeOfDay}.jpg`;
+            return `/${timeOfDay}.jpg`;
+        };
+
+        setImgPath(getImagePath(Time));
+    };
+    // Fetch Weather from API  Function
+    const fetchWeather = async (lat, lon) => {
         try {
-            const res = await fetch(`/api/weather?lat=${coor.lat}&lon=${coor.lon}`);
+            const res = await fetch(`/api/weather?lat=${lat}&lon=${lon}`);
             const result = await res.json();
             setData(result);
-            // show day img after sunrise and before sunset and night img after sunset and before sunrise
-            const sunrise = result.weather.sys.sunrise + result.weather.timezone
-            const sunset = result.weather.sys.sunset + result.weather.timezone
-            const currentTime = result.weather.dt + result.weather.timezone
-            if (currentTime > sunrise && currentTime < sunset) {
-                setImgPath("/day.jpg")
-                setPath(result.weather.weather[0].main.toLowerCase(), "day")
-            }
-            else {
-                setImgPath("/night.jpg")
-                setPath(result.weather.weather[0].main.toLowerCase(), "night")
-            }
+            setPath(result);
 
         } catch (error) {
             console.error("Error fetching weather data:", error);
+            // Handle Error And Show To User 
         } finally {
             setLoading(false);
         }
     }
+    
 
     useEffect(() => {
-    if (coor.lat && coor.lon) {
-        fetchWeather();
-    }
+        const storedCoor = getCoorFromLS();
+        if (storedCoor.lat && storedCoor.lon) {
+            setCoor(storedCoor);
+        } else {
+            fetchWeather(coor.lat, coor.lon);
+        }
+    }, []);
 
-    }, [coor])
+    useEffect(() => {
+        if (coor.lat && coor.lon) {
+            fetchWeather(coor.lat, coor.lon);
+        }
+    }, [coor]);
 
     return (
-        <WeatherContext.Provider value={{ data, imgPath, loading, setCoor }}>
+        <WeatherContext.Provider value={{ data, imgPath, loading, setCoor, setLoading }}>
             {children}
         </WeatherContext.Provider>
     )
