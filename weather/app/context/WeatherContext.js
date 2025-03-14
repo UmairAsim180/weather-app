@@ -5,13 +5,14 @@ const WeatherContext = createContext()
 
 export function WeatherProvider({ children }) {
     const getCoorFromLS = () => {
-        const coor = localStorage.getItem("coor")
-        if (coor) {
-            return JSON.parse(coor)
+        if (typeof window !== "undefined") {  // ✅ Ensures it runs only in the browser
+            const coor = localStorage.getItem("coor");
+            if (coor) {
+                return JSON.parse(coor);
+            }
         }
-        else
-            return { lat: 51.5074, lon: 0.1278 }
-    }
+        return { lat: 51.5074, lon: 0.1278 };  // Default coordinates if no data is found
+    };
 
     const [data, setData] = useState(null)
     const [imgPath, setImgPath] = useState("")
